@@ -54,12 +54,12 @@ def traverse_nodes(instructions: str, nodes: dict[str, Node]) -> int:
                 return steps
 
 
-@dataclass
 class Job:
-    node: Node
-    instructions: str
-    current_instruction_index: int
-    steps: int
+    def __init__(self, node: Node, instructions: str) -> None:
+        self.node = node
+        self.instructions = instructions
+        self.current_instruction_index = -1
+        self.steps = 0
 
     @staticmethod
     def from_result(result: 'JobResult') -> 'Job':
@@ -106,7 +106,7 @@ def traverse_nodes_part2(instructions: str, nodes: dict[str, Node]) -> int:
         return numbers[0]
 
     starting_nodes = [n for n in nodes.values() if n.name[-1] == 'A']
-    jobs = (Job(n, instructions, -1, 0) for n in starting_nodes)
+    jobs = (Job(n, instructions) for n in starting_nodes)
     results = []
 
     for job in jobs:
